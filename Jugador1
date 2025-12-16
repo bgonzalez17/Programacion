@@ -1,0 +1,121 @@
+import java.util.Scanner;
+
+public class Jugador1 {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Totales
+        double saldo = 0;         
+        double totalIngresos = 0; 
+        double totalEgresos = 0;  
+        double totalAhorros = 0;  
+
+        int opcion;
+
+        do {
+            // Menú de opciones
+            System.out.println("\nElige una opción:");
+            System.out.println("1. Registrar ingreso");
+            System.out.println("2. Registrar egreso");
+            System.out.println("3. Mostrar resumen");
+            System.out.println("0. Salir");
+            System.out.print("Opción: ");
+
+            opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            switch (opcion) {
+                case 1:
+                    // INGRESO
+                    System.out.print("Monto del ingreso: ");
+                    double montoIngreso = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Descripción del ingreso: ");
+                    String descIngreso = sc.nextLine();
+                    
+                    System.out.print("Fecha del ingreso (DD/MM/AAAA): ");
+                    String fechaIngreso = sc.nextLine();
+
+                    System.out.print("Porcentaje de ahorro (0 si no ahorra): ");
+                    double porcAhorro = sc.nextDouble();
+                    sc.nextLine();
+
+                    // Ahorro
+                    double montoAhorro = montoIngreso * porcAhorro / 100.0;
+
+                    // totales
+                    totalIngresos += montoIngreso;
+                    totalAhorros += montoAhorro;
+                    saldo += montoIngreso;  
+
+                    System.out.println("Ingreso registrado: " + descIngreso);
+                    System.out.println("Monto ahorro generado: " + montoAhorro);
+
+                    // Comprobación saldo
+                    if (saldo < 0) {
+                        System.out.println("\n*** ATENCIÓN: saldo NEGATIVO ***");
+                        System.out.println("Total ingresos: " + totalIngresos);
+                        System.out.println("Total egresos : " + totalEgresos);
+                        System.out.println("Total ahorros : " + totalAhorros);
+                    }
+
+                    break;
+
+                case 2:
+                    // EGRESO
+                    System.out.print("Monto del egreso: ");
+                    double montoEgreso = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Descripción del egreso: ");
+                    String descEgreso = sc.nextLine();
+
+                    System.out.print("Fecha del egreso (DD/MM/AAAA): ");
+                    String fechaEgreso = sc.nextLine();
+                    
+                    totalEgresos += montoEgreso;
+                    saldo -= montoEgreso; 
+
+                    System.out.println("Egreso registrado: " + descEgreso);
+
+                    // Comprobación saldo
+                    if (saldo < 0) {
+                        System.out.println("\n*** ATENCIÓN: saldo NEGATIVO ***");
+                        System.out.println("Total ingresos: " + totalIngresos);
+                        System.out.println("Total egresos : " + totalEgresos);
+                        System.out.println("Total ahorros : " + totalAhorros);
+                    }
+
+                    break;
+
+                case 3:
+                    // RESUMEN
+                    System.out.println("\n----- RESUMEN DEL JUGADOR -----");
+                    System.out.println("Total ingresos        : " + totalIngresos);
+                    System.out.println("Total egresos         : " + totalEgresos);
+                    System.out.println("Total ahorros acumul. : " + totalAhorros);
+                    System.out.println("Saldo actual          : " + saldo);
+                    
+                    double disponibilidad = saldo - totalAhorros;
+                    System.out.println("Disponibilidad        : " + disponibilidad);
+                    
+                    System.out.println("--------------------------------");
+                    break;
+
+                case 0:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+
+        } while (opcion != 0);
+
+        sc.close();
+    }
+}
