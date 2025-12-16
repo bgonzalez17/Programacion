@@ -1,0 +1,202 @@
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+public class visual {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Totales
+        double saldo = 0;
+        double totalIngresos = 0;
+        double totalEgresos = 0;
+        double totalAhorros = 0;
+
+        double totalPublicidad = 0;
+        double totalPremios = 0;
+        double totalGananciasInversion = 0;
+        double totalPerdidasInversion = 0;
+        double totalInteresesAhorro = 0;
+        double totalFilantropia = 0;
+        double totalMultas = 0;
+        double totalSanciones = 0;
+
+        int opcion;
+
+        do {
+            System.out.println("\nElige una opción:");
+            System.out.println("1. Registrar ingreso");
+            System.out.println("2. Registrar egreso");
+            System.out.println("3. Mostrar resumen");
+            System.out.println("0. Salir");
+            System.out.print("Opción: ");
+
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+
+                case 1: {
+                    // INGRESO
+                    System.out.println("\nTipo de ingreso:");
+                    System.out.println("1. Contrato / sueldo");
+                    System.out.println("2. Publicidad");
+                    System.out.println("3. Premio deportivo");
+                    System.out.println("4. Ganancia de inversión");
+                    System.out.println("5. Interés de ahorros");
+                    System.out.print("Opción: ");
+
+                    int tipoIngreso = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Monto del ingreso: ");
+                    double montoIngreso = sc.nextDouble();
+                    sc.nextLine();
+
+                    // Bono solo para premio deportivo
+                    if (tipoIngreso == 3) {
+                        System.out.print("Bono % por premio (0 si no hay): ");
+                        double porcBono = sc.nextDouble();
+                        sc.nextLine();
+                        montoIngreso += montoIngreso * porcBono / 100.0;
+                    }
+
+                    System.out.print("Descripción del ingreso: ");
+                    String descIngreso = sc.nextLine();
+
+                    System.out.print("Fecha del ingreso (DD/MM/AAAA): ");
+                    String fechaIngreso = sc.nextLine();
+
+                    System.out.print("Porcentaje de ahorro (0 si no ahorra): ");
+                    double porcAhorro = sc.nextDouble();
+                    sc.nextLine();
+
+                    double montoAhorro = montoIngreso * porcAhorro / 100.0;
+
+                    totalIngresos += montoIngreso;
+                    totalAhorros += montoAhorro;
+                    saldo += montoIngreso;
+
+                    if (tipoIngreso == 2) totalPublicidad += montoIngreso;
+                    if (tipoIngreso == 3) totalPremios += montoIngreso;
+                    if (tipoIngreso == 4) totalGananciasInversion += montoIngreso;
+                    if (tipoIngreso == 5) totalInteresesAhorro += montoIngreso;
+
+                    System.out.println("Ingreso registrado correctamente.");
+
+                    break;
+                }
+
+                case 2: {
+                    // EGRESO
+                    System.out.println("\nTipo de egreso:");
+                    System.out.println("1. Gasto personal");
+                    System.out.println("2. Aporte filantrópico");
+                    System.out.println("3. Pérdida de inversión");
+                    System.out.println("4. Multa");
+                    System.out.println("5. Sanción / inactividad (%)");
+                    System.out.print("Opción: ");
+
+                    int tipoEgreso = sc.nextInt();
+                    sc.nextLine();
+
+                    double montoEgreso;
+
+                    if (tipoEgreso == 5) {
+                        System.out.print("Monto base para sanción: ");
+                        double base = sc.nextDouble();
+                        sc.nextLine();
+
+                        System.out.print("Porcentaje de sanción: ");
+                        double porc = sc.nextDouble();
+                        sc.nextLine();
+
+                        montoEgreso = base * porc / 100.0;
+                    } else {
+                        System.out.print("Monto del egreso: ");
+                        montoEgreso = sc.nextDouble();
+                        sc.nextLine();
+                    }
+
+                    System.out.print("Descripción del egreso: ");
+                    String descEgreso = sc.nextLine();
+
+                    System.out.print("Fecha del egreso (DD/MM/AAAA): ");
+                    String fechaEgreso = sc.nextLine();
+
+                    totalEgresos += montoEgreso;
+                    saldo -= montoEgreso;
+
+                    if (tipoEgreso == 2) totalFilantropia += montoEgreso;
+                    if (tipoEgreso == 3) totalPerdidasInversion += montoEgreso;
+                    if (tipoEgreso == 4) totalMultas += montoEgreso;
+                    if (tipoEgreso == 5) totalSanciones += montoEgreso;
+
+                    System.out.println("Egreso registrado correctamente.");
+
+                    break;
+                }
+
+                case 3: {
+                    // RESUMEN
+                    System.out.println("\n----- RESUMEN DEL JUGADOR -----");
+                    System.out.println("Total ingresos : " + totalIngresos);
+                    System.out.println("Total egresos  : " + totalEgresos);
+                    System.out.println("Total ahorros  : " + totalAhorros);
+                    System.out.println("Saldo actual   : " + saldo);
+
+                    // MÓDULO VISUAL
+                    EstadoCuentasSimple.mostrarEstado(
+                            totalIngresos,
+                            totalEgresos,
+                            totalAhorros,
+                            saldo
+                    );
+
+                    break;
+                }
+
+                case 0:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+
+        } while (opcion != 0);
+
+        sc.close();
+    }
+}
+
+class EstadoCuentas {
+
+    static void mostrarEstado(
+            double totalIngresos,
+            double totalEgresos,
+            double totalAhorros,
+            double saldo
+    ) {
+
+        double disponibilidad = saldo - totalAhorros;
+
+        String mensaje =
+                "ESTADO DE CUENTAS\n" +
+                "-------------------------\n" +
+                "Total ingresos : " + totalIngresos + "\n" +
+                "Total egresos  : " + totalEgresos + "\n" +
+                "Total ahorros  : " + totalAhorros + "\n" +
+                "Saldo actual   : " + saldo + "\n" +
+                "Disponibilidad : " + disponibilidad;
+
+        JOptionPane.showMessageDialog(
+                null,
+                mensaje,
+                "Estado de cuentas",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+}
