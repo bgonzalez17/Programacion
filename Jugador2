@@ -1,0 +1,191 @@
+import java.util.Scanner;
+
+public class Jugador2 {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Totales
+        double saldo = 0;          
+        double totalIngresos = 0;  
+        double totalEgresos = 0;   
+        double totalAhorros = 0;   
+		
+		double totalPublicidad =0;
+		double totalPremios =0;
+		double totalGananciasInversion =0;
+		double totalPerdidasInversion =0;
+		double totalInteresesAhorro =0;
+		double totalFilantropia =0;
+
+        int opcion;
+
+        do {
+            // Menú de opciones
+            System.out.println("\nElige una opción:");
+            System.out.println("1. Registrar ingreso");
+            System.out.println("2. Registrar egreso");
+            System.out.println("3. Mostrar resumen");
+            System.out.println("0. Salir");
+            System.out.print("Opción: ");
+
+            opcion = sc.nextInt();
+            sc.nextLine(); 
+
+            switch (opcion) {
+                case 1:
+                    // INGRESO
+					System.out.println("\nTipo de ingreso:");
+                    System.out.println("1. Contrato / sueldo");
+                    System.out.println("2. Publicidad");
+                    System.out.println("3. Premio deportivo");
+                    System.out.println("4. Ganancia de inversión");
+                    System.out.println("5. Interés de ahorros");
+                    System.out.print("Opción: ");
+                    
+					int tipoIngreso = sc.nextInt();
+                    sc.nextLine();
+
+                    String tipoIngresoTexto;
+                    switch (tipoIngreso) {
+                        case 1: tipoIngresoTexto = "Contrato / sueldo"; break;
+                        case 2: tipoIngresoTexto = "Publicidad"; break;
+                        case 3: tipoIngresoTexto = "Premio deportivo"; break;
+                        case 4: tipoIngresoTexto = "Ganancia de inversión"; break;
+                        case 5: tipoIngresoTexto = "Interés de ahorros"; break;
+                        default: tipoIngresoTexto = "Ingreso (otro)"; break;
+                    }
+
+					
+					System.out.print("Monto del ingreso: ");
+                    double montoIngreso = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Descripción del ingreso: ");
+                    String descIngreso = sc.nextLine();
+					
+					System.out.print("Fecha del ingreso (DD/MM/AAAA): ");
+					String fechaIngreso = sc.nextLine();
+
+                    System.out.print("Porcentaje de ahorro (0 si no ahorra): ");
+                    double porcAhorro = sc.nextDouble();
+                    sc.nextLine();
+
+                    // Ahorro
+                    double montoAhorro = montoIngreso * porcAhorro / 100.0;
+
+                    // Totales
+                    totalIngresos += montoIngreso;
+                    totalAhorros += montoAhorro;
+                    saldo += montoIngreso;
+					
+					if (tipoIngreso == 2) totalPublicidad += montoIngreso;
+                    if (tipoIngreso == 3) totalPremios += montoIngreso;
+                    if (tipoIngreso == 4) totalGananciasInversion += montoIngreso;
+                    if (tipoIngreso == 5) totalInteresesAhorro += montoIngreso;
+
+                    System.out.println("\nIngreso registrado:");
+                    System.out.println("Tipo        : " + tipoIngresoTexto);
+                    System.out.println("Descripción : " + descIngreso);
+                    System.out.println("Fecha       : " + fechaIngreso);
+                    System.out.println("Monto       : " + montoIngreso);
+                    System.out.println("Ahorro gen. : " + montoAhorro);
+
+                    // Comprbación saldo
+                    if (saldo < 0) {
+                        System.out.println("\n*** ATENCIÓN: saldo NEGATIVO ***");
+                        System.out.println("Total ingresos: " + totalIngresos);
+                        System.out.println("Total egresos : " + totalEgresos);
+                        System.out.println("Total ahorros : " + totalAhorros);
+                    }
+
+                    break;
+
+                case 2:
+                    // EGRESO
+                    System.out.println("\nTipo de egreso:");
+                    System.out.println("1. Gasto personal");
+                    System.out.println("2. Aporte filantrópico");
+                    System.out.println("3. Pérdida de inversión");
+                    System.out.print("Opción: ");
+                    int tipoEgreso = sc.nextInt();
+                    sc.nextLine();
+
+                    String tipoEgresoTexto;
+                    switch (tipoEgreso) {
+                        case 1: tipoEgresoTexto = "Gasto personal"; break;
+                        case 2: tipoEgresoTexto = "Aporte filantrópico"; break;
+                        case 3: tipoEgresoTexto = "Pérdida de inversión"; break;
+                        default: tipoEgresoTexto = "Egreso (otro)"; break;
+                    }
+					
+					System.out.print("Monto del egreso: ");
+                    double montoEgreso = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Descripción del egreso: ");
+                    String descEgreso = sc.nextLine();
+					
+					System.out.print("Fecha del Engreso (DD/MM/AAAA): ");
+					String fechaEgreso = sc.nextLine();
+
+                    totalEgresos += montoEgreso;
+                    saldo -= montoEgreso;
+					
+					if (tipoEgreso == 2) totalFilantropia += montoEgreso;
+                    if (tipoEgreso == 3) totalPerdidasInversion += montoEgreso;
+
+                    System.out.println("\nEgreso registrado:");
+                    System.out.println("Tipo        : " + tipoEgresoTexto);
+                    System.out.println("Descripción : " + descEgreso);
+                    System.out.println("Fecha       : " + fechaEgreso);
+                    System.out.println("Monto       : " + montoEgreso);
+
+                    // Comprobación saldo
+                    if (saldo < 0) {
+                        System.out.println("\n*** ATENCIÓN: saldo NEGATIVO ***");
+                        System.out.println("Total ingresos: " + totalIngresos);
+                        System.out.println("Total egresos : " + totalEgresos);
+                        System.out.println("Total ahorros : " + totalAhorros);
+                    }
+
+                    break;
+
+                case 3:
+                    // RESUMEN
+                    System.out.println("\n----- RESUMEN DEL JUGADOR -----");
+                    System.out.println("Total ingresos        : " + totalIngresos);
+                    System.out.println("Total egresos         : " + totalEgresos);
+                    System.out.println("Total ahorros acumul. : " + totalAhorros);
+                    System.out.println("Saldo actual          : " + saldo);
+                    
+					double disponibilidad = saldo - totalAhorros;
+					System.out.println("Disponibilidad       : " + disponibilidad);
+					
+					System.out.println("\n--- Detalle por tipo (integración de la letra) ---");
+                    System.out.println("Publicidad (ingresos)        : " + totalPublicidad);
+                    System.out.println("Premios deportivos (ingresos): " + totalPremios);
+                    System.out.println("Ganancias de inversión       : " + totalGananciasInversion);
+                    System.out.println("Pérdidas de inversión        : " + totalPerdidasInversion);
+                    System.out.println("Intereses de ahorros         : " + totalInteresesAhorro);
+                    System.out.println("Aportes filantrópicos (egresos): " + totalFilantropia);
+
+					
+					System.out.println("--------------------------------");
+                    break;
+
+                case 0:
+                    System.out.println("Saliendo del programa...");
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            }
+
+        } while (opcion != 0);
+
+        sc.close();
+    }
+}
