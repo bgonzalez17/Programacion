@@ -147,7 +147,7 @@ public class visual {
                     System.out.println("Saldo actual   : " + saldo);
 
                     // MÓDULO VISUAL
-                    EstadoCuentasSimple.mostrarEstado(
+                    EstadoCuentas.mostrarEstado(
                             totalIngresos,
                             totalEgresos,
                             totalAhorros,
