@@ -163,7 +163,7 @@ public class Jugador2 {
 					double disponibilidad = saldo - totalAhorros;
 					System.out.println("Disponibilidad       : " + disponibilidad);
 					
-					System.out.println("\n--- Detalle por tipo (integración de la letra) ---");
+					System.out.println("\n--- Detalle por tipo ---");
                     System.out.println("Publicidad (ingresos)        : " + totalPublicidad);
                     System.out.println("Premios deportivos (ingresos): " + totalPremios);
                     System.out.println("Ganancias de inversión       : " + totalGananciasInversion);
